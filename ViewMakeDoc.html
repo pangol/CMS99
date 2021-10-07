@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+  <?!= include('viewLayoutStyle'); ?>
+  <?!= include('viewLayoutScript'); ?>
+  <script>
+    function makingDoc(){
+      const makingForm = document.makginDoc
+      const makingNum = makingForm.makeNum.value
+      google.script.run.withSuccessHandler(onSuccess).withFailureHandler(onFailure).makeSigDoc(makingNum)
+      addProcessing()
+    }
+  </script>
+</head>
+
+<body>
+	<div class="container mt-3">
+		<form name="makginDoc">
+			<div class="inputElement">
+        <p>문서로 만들 번호를 입력하세요</p>
+        <input type="number" id="makeNum" name="makeNum" >
+      </div>
+      <input type="button" class="btn btn-primary mt-3" value="문서만들기" onclick="makingDoc();" />
+    </form>
+    <div class="muInfo" style="margin:0 auto;"></div>
+    <div class="processingParent mt-3"></div>
+  </div>
+</body>
+</html>

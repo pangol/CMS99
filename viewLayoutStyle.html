@@ -1,0 +1,50 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+	rel="stylesheet">
+<!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+	integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+
+<style>
+	* {
+		font-family: 'Noto Sans KR', sans-serif;
+	}
+
+	label {
+		font-weight: bold;
+	}
+
+	.processingParent {
+		display: flex;
+		justify-content: center;
+	}
+
+	.lds-dual-ring {
+		display: inline-block;
+		width: 80px;
+		height: 80px;
+	}
+
+	.lds-dual-ring:after {
+		content: " ";
+		display: block;
+		width: 64px;
+		height: 64px;
+		margin: 8px;
+		border-radius: 50%;
+		border: 6px solid #000;
+		border-color: #000 transparent #000 transparent;
+		animation: lds-dual-ring 1.2s linear infinite;
+	}
+
+	@keyframes lds-dual-ring {
+		0% {
+			transform: rotate(0deg);
+		}
+
+		100% {
+			transform: rotate(360deg);
+		}
+	}
+</style>

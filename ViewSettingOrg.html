@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+  <?!= include('viewLayoutStyle'); ?>
+  <?!= include('viewLayoutScript'); ?>
+	<script>
+    function getSettingValue(){
+      const settingForm = document.settingForm
+      const orgName = settingForm.orgName.value
+      const representName = settingForm.representName.value
+      const officeAddress = settingForm.officeAddress.value
+      const orgNumber = settingForm.orgNumber.value
+
+      if(orgName == '' | representName == '' | officeAddress == '' | orgNumber == ''){
+        alert('빈칸 없이 다 작성해주세요')
+        return
+      }
+
+      google.script.run.withSuccessHandler(onSuccess).withFailureHandler(onFailure).saveSettingValue({
+        representName, orgName, officeAddress, orgNumber
+      }, 'org')
+      addProcessing()
+    }
+	</script>
+</head>
+
+<body>
+	<div class="container mt-3">
+		<form name="settingForm">
+			<div class="inputElement mt-3">
+				<label for="orgName"> 기관명
+        <input type="text" id="orgName" name="orgName">
+      </div>
+      <div class="inputElement mt-3">
+        <label for="representName"> 대표자
+        <input type="text" id="representName" name="representName">
+      </div>
+      <div class="inputElement mt-3">
+        <label for="officeAddress"> 사업장주소
+        <input type="text" id="officeAddress" name="officeAddress">
+      </div>
+      <div class="inputElement mt-3">
+        <label for="orgNumber"> 사업자 등록번호
+        <input type="text" id="orgNumber" name="orgNumber">
+      </div>
+      <input type="button" class="mt-3 btn btn-primary" value="저장하기" onclick="getSettingValue();" />
+    </form>
+    <div class="suInfo" style="width:80%; margin:0 auto;"></div>
+    <div class="processingParent">
+    </div>
+  </div>
+</body>
+</html>

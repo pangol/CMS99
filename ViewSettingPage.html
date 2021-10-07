@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+  <?!= include('viewLayoutStyle'); ?>
+  <?!= include('viewLayoutScript'); ?>
+	<script>
+    function getSettingValue(){
+      const settingForm = document.settingForm
+      const templateFileId = settingForm.templateFileId.value
+      const templateFolderId = settingForm.templateFolderId.value
+      const imgFolderId = settingForm.imgFolderId.value
+      const outputFolderId = settingForm.outputFolderId.value
+
+      if(templateFileId == '' | templateFolderId == '' | imgFolderId == '' | outputFolderId == ''){
+        alert('빈칸 없이 다 작성해주세요')
+        return
+      }
+
+      google.script.run.withSuccessHandler(onSuccess).withFailureHandler(onFailure).saveSettingValue({
+        templateFolderId, templateFileId, imgFolderId, outputFolderId
+      } , 'setting')
+      addProcessing()
+    }
+	</script>
+</head>
+
+<body>
+	<div class="container mt-3">
+		<form name="settingForm">
+			<div class="inputElement mt-3">
+				<label for="templateFolderId"> 템플릿 폴더 아이디
+        <input type="text" id="templateFolderId" name="templateFolderId">
+      </div>
+      <div class="inputElement mt-3">
+        <label for="templateFileId"> 템플릿 파일 아이디
+        <input type="text" id="templateFileId" name="templateFileId">
+      </div>
+      <div class="inputElement mt-3">
+        <label for="imgFolderId"> 이미지 폴더 아이디
+        <input type="text" id="imgFolderId" name="imgFolderId">
+      </div>
+      <div class="inputElement mt-3">
+        <label for="outputFolderId"> 아웃풋 폴더 아이디
+        <input type="text" id="outputFolderId" name="outputFolderId">
+      </div>
+      <input type="button" class="mt-3 btn btn-primary" value="저장하기" onclick="getSettingValue();" />
+    </form>
+    <div class="suInfo" style="width:80%; margin:0 auto;"></div>
+    <div class="processingParent"></div>
+  </div>
+</body>
+</html>
