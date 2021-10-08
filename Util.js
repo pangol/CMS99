@@ -9,8 +9,13 @@ function convertDateBirthAndDate(docProperties){
   docProperties.date = result_current
 }
 
-function convertObj(rowValues) {
-  const docKeys = ['name', 'birth', 'bank', 'account', 'email', 'phone', 'date', 'sig']
+function convertObj(rowValues, type) {
+  let docKeys
+  if(type=='env'){
+    docKeys = ['name', 'birth', 'bank', 'account', 'email', 'phone', 'date', 'sig']
+  }else{
+    docKeys = ['orgName', 'representName', 'officeAddress', 'orgNumber']
+  }
   let result = {}
   rowValues.map((value, index) => {
     let realIndex = docKeys[index]

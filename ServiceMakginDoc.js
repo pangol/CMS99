@@ -4,9 +4,11 @@
 function myFunction(makingNum) {
   try {
     const envObj = new Setup()
+    const objObj = new OrgSetup()
     envObj.startRow = makingNum
-    const docProperties = getValuesFromSheet(envObj.startRow)
-    makeDoc(docProperties, envObj.fileEnvironment)
+    const docProperties = getValuesFromSheet(envObj.startRow, 'env')
+    const orgProperties = getValuesFromSheet(2, 'org')
+    makeDoc(docProperties, orgProperties, envObj.fileEnvironment)
     return {
       error: false
     }
@@ -18,31 +20,45 @@ function myFunction(makingNum) {
   }
 }
 
-function getValuesFromSheet(startRow) {
-  const spreadSheet = SpreadsheetApp.getActiveSpreadsheet();
-  const sheet = spreadSheet.getSheetByName('후원리스트')
-  const range = sheet.getRange(startRow, 1, 1, 8)
-  const values = range.getValues()
-  const emptyCheck = values[0].filter(value => value == '')
-  
-  if(emptyCheck.length > 0){
-    throw new SettingException('선택하신 번호에 값들이 존재하지 않습니다')
+function getValuesFromSheet(startRow, type) {
+  const spreadSheet = SpreadsheetApp.getActiveSpreadsheet()
+  let result, rowValues
+
+  if(type == 'env'){
+    const sheet = spreadSheet.getSheetByName('후원리스트')
+    const range = sheet.getRange(startRow, 1, 1, 8)
+    const values = range.getValues()
+    const emptyCheck = values[0].filter(value => value == '')
+    
+    if(emptyCheck.length > 0){
+      throw new SettingException('선택하신 번호에 값들이 존재하지 않습니다')
+    }
+    rowValues = values[0]
+  }else{
+    const sheet = spreadSheet.getSheetByName('단체정보')
+    const range = sheet.getRange(startRow, 1, 1, 4)
+    const values = range.getValues()
+    const emptyCheck = values[0].filter(value => value == '')
+    
+    if(emptyCheck.length > 0){
+      throw new SettingException('단체 정보 값들이 존재하지 않습니다')
+    }
+    
+    rowValues = values[0]
   }
-  
-  const rowValues = values[0]
-  const result = convertObj(rowValues)
+  result = convertObj(rowValues, type)
   return result
+
 }
 
-function makeDoc(docProperties, fileEnvironment) {
+function makeDoc(docProperties, orgProperties, fileEnvironment) {
   const sigFolder = DriveApp.getFolderById(fileEnvironment.sigFolderId);
   const outputFolder = DriveApp.getFolderById(fileEnvironment.outputFolderId);
   const imgSize = 150
   const sigFileNameF = 'CMS정기이체_'
 
   const copiedTemplateDoc = DriveApp.getFileById(fileEnvironment.templateId)
-
-  copiedTemplateDoc.makeCopy(sigFileNameF + docProperties.name, outputFolder);
+    .makeCopy(sigFileNameF + docProperties.name, outputFolder);
 
   const docId = copiedTemplateDoc.getId();
   const doc = DocumentApp.openById(docId);
@@ -58,7 +74,7 @@ function makeDoc(docProperties, fileEnvironment) {
     sigImgFileId = fileList.next().getId()
   }
 
-  replaceDoc(body, docProperties)
+  replaceDoc(body, docProperties, orgProperties)
 
   const sigImg = DriveApp.getFileById(sigImgFileId).getBlob();
   replaceTextToImage(body, '{sig}', sigImg, imgSize)
@@ -66,7 +82,12 @@ function makeDoc(docProperties, fileEnvironment) {
   doc.saveAndClose()
 }
 
-function replaceDoc(body, docProperties) {
+function replaceDoc(body, docProperties, orgProperties) {
+  body.replaceText('{orgName}', orgProperties.orgName);
+  body.replaceText('{representName}', orgProperties.representName);
+  body.replaceText('{officeAddress}', orgProperties.officeAddress);
+  body.replaceText('{orgNumber}', orgProperties.orgNumber);
+
   body.replaceText('{name}', docProperties.name);
   body.replaceText('{birth}', docProperties.birth);
   body.replaceText('{bank}', docProperties.bank);
