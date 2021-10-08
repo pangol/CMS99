@@ -3,12 +3,15 @@
 
 function myFunction(makingNum) {
   try {
-    const envObj = new Setup()
+    const docObj = new DocSetup()
     const objObj = new OrgSetup()
-    envObj.startRow = makingNum
-    const docProperties = getValuesFromSheet(envObj.startRow, 'env')
+
+    docObj.setValues(makingNum)
+
+    const docProperties = getValuesFromSheet(docObj.startRow, 'env')
     const orgProperties = getValuesFromSheet(2, 'org')
-    makeDoc(docProperties, orgProperties, envObj.fileEnvironment)
+
+    makeDoc(docProperties, orgProperties, docObj.sheetValues)
     return {
       error: false
     }
@@ -51,13 +54,13 @@ function getValuesFromSheet(startRow, type) {
 
 }
 
-function makeDoc(docProperties, orgProperties, fileEnvironment) {
-  const sigFolder = DriveApp.getFolderById(fileEnvironment.sigFolderId);
-  const outputFolder = DriveApp.getFolderById(fileEnvironment.outputFolderId);
+function makeDoc(docProperties, orgProperties, docValues) {
+  const sigFolder = DriveApp.getFolderById(docValues.sigFolderId);
+  const outputFolder = DriveApp.getFolderById(docValues.outputFolderId);
   const imgSize = 150
   const sigFileNameF = 'CMS정기이체_'
 
-  const copiedTemplateDoc = DriveApp.getFileById(fileEnvironment.templateId)
+  const copiedTemplateDoc = DriveApp.getFileById(docValues.templateId)
     .makeCopy(sigFileNameF + docProperties.name, outputFolder);
 
   const docId = copiedTemplateDoc.getId();
