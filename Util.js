@@ -9,16 +9,6 @@ function convertDateBirthAndDate(docProperties){
   docProperties.date = result_current
 }
 
-function convertObj(rowValues) {
-  const docKeys = ['name', 'birth', 'bank', 'account', 'email', 'phone', 'date', 'sig']
-  let result = {}
-  rowValues.map((value, index) => {
-    let realIndex = docKeys[index]
-    result[realIndex] = value
-  })
-  return result
-}
-
 function isEmptyObject(param) {
   return Object.keys(param).length === 0 && param.constructor === Object;
 }

@@ -11,9 +11,6 @@ function myFunction(makingNum) {
     orgObj.setValues()
     peopleObj.setValues(makingNum)
 
-    // const peopleProperties = getValuesFromSheet(docObj.startRow)
-    // const orgProperties = getValuesFromSheet(2, 'org')
-
     makeDoc(peopleObj.sheetValues, orgObj.sheetValues, docObj.sheetValues)
     return {
       error: false
@@ -24,25 +21,6 @@ function myFunction(makingNum) {
       type: e
     }
   }
-}
-
-function getValuesFromSheet(startRow) {
-  const spreadSheet = SpreadsheetApp.getActiveSpreadsheet()
-  let result, rowValues
-
-  const sheet = spreadSheet.getSheetByName('후원리스트')
-  const range = sheet.getRange(startRow, 1, 1, 8)
-  const values = range.getValues()
-  const emptyCheck = values[0].filter(value => value == '')
-  
-  if(emptyCheck.length > 0){
-    throw new SettingException('선택하신 번호에 값들이 존재하지 않습니다')
-  }
-  rowValues = values[0]
-  
-  result = convertObj(rowValues)
-  return result
-
 }
 
 function makeDoc(peopleProperties, orgProperties, docValues) {
