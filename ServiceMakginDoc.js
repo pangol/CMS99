@@ -4,14 +4,17 @@
 function myFunction(makingNum) {
   try {
     const docObj = new DocSetup()
-    const objObj = new OrgSetup()
+    const orgObj = new OrgSetup()
+    const peopleObj = new PeopleSetup()
 
-    docObj.setValues(makingNum)
+    docObj.setValues()
+    orgObj.setValues()
+    peopleObj.setValues(makingNum)
 
-    const docProperties = getValuesFromSheet(docObj.startRow, 'env')
-    const orgProperties = getValuesFromSheet(2, 'org')
+    // const peopleProperties = getValuesFromSheet(docObj.startRow)
+    // const orgProperties = getValuesFromSheet(2, 'org')
 
-    makeDoc(docProperties, orgProperties, docObj.sheetValues)
+    makeDoc(peopleObj.sheetValues, orgObj.sheetValues, docObj.sheetValues)
     return {
       error: false
     }
@@ -23,45 +26,33 @@ function myFunction(makingNum) {
   }
 }
 
-function getValuesFromSheet(startRow, type) {
+function getValuesFromSheet(startRow) {
   const spreadSheet = SpreadsheetApp.getActiveSpreadsheet()
   let result, rowValues
 
-  if(type == 'env'){
-    const sheet = spreadSheet.getSheetByName('후원리스트')
-    const range = sheet.getRange(startRow, 1, 1, 8)
-    const values = range.getValues()
-    const emptyCheck = values[0].filter(value => value == '')
-    
-    if(emptyCheck.length > 0){
-      throw new SettingException('선택하신 번호에 값들이 존재하지 않습니다')
-    }
-    rowValues = values[0]
-  }else{
-    const sheet = spreadSheet.getSheetByName('단체정보')
-    const range = sheet.getRange(startRow, 1, 1, 4)
-    const values = range.getValues()
-    const emptyCheck = values[0].filter(value => value == '')
-    
-    if(emptyCheck.length > 0){
-      throw new SettingException('단체 정보 값들이 존재하지 않습니다')
-    }
-    
-    rowValues = values[0]
+  const sheet = spreadSheet.getSheetByName('후원리스트')
+  const range = sheet.getRange(startRow, 1, 1, 8)
+  const values = range.getValues()
+  const emptyCheck = values[0].filter(value => value == '')
+  
+  if(emptyCheck.length > 0){
+    throw new SettingException('선택하신 번호에 값들이 존재하지 않습니다')
   }
-  result = convertObj(rowValues, type)
+  rowValues = values[0]
+  
+  result = convertObj(rowValues)
   return result
 
 }
 
-function makeDoc(docProperties, orgProperties, docValues) {
+function makeDoc(peopleProperties, orgProperties, docValues) {
   const sigFolder = DriveApp.getFolderById(docValues.sigFolderId);
   const outputFolder = DriveApp.getFolderById(docValues.outputFolderId);
   const imgSize = 150
   const sigFileNameF = 'CMS정기이체_'
 
   const copiedTemplateDoc = DriveApp.getFileById(docValues.templateId)
-    .makeCopy(sigFileNameF + docProperties.name, outputFolder);
+    .makeCopy(sigFileNameF + peopleProperties.name, outputFolder);
 
   const docId = copiedTemplateDoc.getId();
   const doc = DocumentApp.openById(docId);
@@ -69,15 +60,15 @@ function makeDoc(docProperties, orgProperties, docValues) {
   
   const body = doc.getBody();
 
-  convertDateBirthAndDate(docProperties)
+  convertDateBirthAndDate(peopleProperties)
 
   let sigImgFileId;
-  fileList = sigFolder.getFilesByName(docProperties.sig)
+  fileList = sigFolder.getFilesByName(peopleProperties.sig)
   while (fileList.hasNext()) {
     sigImgFileId = fileList.next().getId()
   }
 
-  replaceDoc(body, docProperties, orgProperties)
+  replaceDoc(body, peopleProperties, orgProperties)
 
   const sigImg = DriveApp.getFileById(sigImgFileId).getBlob();
   replaceTextToImage(body, '{sig}', sigImg, imgSize)
@@ -85,19 +76,19 @@ function makeDoc(docProperties, orgProperties, docValues) {
   doc.saveAndClose()
 }
 
-function replaceDoc(body, docProperties, orgProperties) {
+function replaceDoc(body, peopleProperties, orgProperties) {
   body.replaceText('{orgName}', orgProperties.orgName);
   body.replaceText('{representName}', orgProperties.representName);
   body.replaceText('{officeAddress}', orgProperties.officeAddress);
   body.replaceText('{orgNumber}', orgProperties.orgNumber);
 
-  body.replaceText('{name}', docProperties.name);
-  body.replaceText('{birth}', docProperties.birth);
-  body.replaceText('{bank}', docProperties.bank);
-  body.replaceText('{account}', docProperties.account);
-  body.replaceText('{email}', docProperties.email);
-  body.replaceText('{phone}', docProperties.phone);
-  body.replaceText('{date}', docProperties.date);
+  body.replaceText('{name}', peopleProperties.name);
+  body.replaceText('{birth}', peopleProperties.birth);
+  body.replaceText('{bank}', peopleProperties.bank);
+  body.replaceText('{account}', peopleProperties.account);
+  body.replaceText('{email}', peopleProperties.email);
+  body.replaceText('{phone}', peopleProperties.phone);
+  body.replaceText('{date}', peopleProperties.date);
 }
 
 function replaceTextToImage(body, searchText, image, width) {

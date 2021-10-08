@@ -13,6 +13,9 @@ class DocSetup {
   }
 
   setValues(makingNum){
+    if(makingNum){
+      this.rangeA.startRow = makingNum
+    }
     const spreadSheet = SpreadsheetApp.getActiveSpreadsheet();
     const sheet = spreadSheet.getSheetByName(this.sheetName)
     if(sheet == null){
@@ -28,26 +31,27 @@ class DocSetup {
   }
 }
 
-class OrgSetup{
+class OrgSetup extends DocSetup{
   constructor(){
-     if (this.obj == null){
-      this.obj = {}
-      const spreadSheet = SpreadsheetApp.getActiveSpreadsheet();
-      const sheet = spreadSheet.getSheetByName('단체정보')
-      if(sheet == null){
-        throw new SettingException('단체정보 시트가 존재하지 않습니다')
-      }
-      const range = sheet.getRange(2,1,1,4)
-      const values = range.getValues()
+    super()
+    this.sheetName = '단체정보'
+    this.fields = ['orgName', 'representName', 'officeAddress', 'orgNumber']
+    this.errorText = '단체정보 시트가 존재하지 않습니다'
+  }
+}
 
-      this.obj.fileEnvironment = {
-        orgName : values[0][0],
-        representName :values[0][1],
-        officeAddress : values[0][2],
-        orgNumber : values[0][3],
-      }
+class PeopleSetup extends DocSetup{
+  constructor(){
+    super()
+    this.sheetName = '후원리스트'
+    this.fields = ['name', 'birth', 'bank', 'account', 'email', 'phone', 'date', 'sig']
+    this.errorText = '후원리스트 시트가 존재하지 않습니다'
+    this.rangeA = {
+      startRow: 2,
+      numOfRow: 1,
+      startCol: 1,
+      numOfCol: 8
     }
-    return this.obj 
   }
 }
 
