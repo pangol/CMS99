@@ -1,0 +1,108 @@
+<script>
+  const whitePlaceoholder = "빈칸을 채워주세요!"
+
+	var canvas = document.querySelector("canvas")
+  var signaturePad = new SignaturePad(canvas)
+  
+  var clearBtn = document.querySelector('.clearButton')
+  var sendBtn = document.querySelector('.sendButton')
+  
+  clearBtn.addEventListener("click", function(event){
+    signaturePad.clear()
+  });
+
+  sendBtn.addEventListener("click", function(event){
+    const name = document.querySelector("#dName")
+    const birth = document.querySelector("#dBirth")
+    const bank = document.querySelector("#dBank")
+    const account = document.querySelector("#dBankAccount")
+    const email = document.querySelector("#email")
+    const phone = document.querySelector("#phone")    
+
+    const privateInfo = document.querySelector('input[name="chk_privateInfo"]:checked');      
+    const private3Info = document.querySelector('input[name="chk_private3Info"]:checked');
+
+    const date = document.querySelector("#writeDate")
+
+    if(name.value == ""){
+      name.placeholder = whitePlaceoholder
+      name.focus()
+      return;
+    } else if (birth.value == ""){
+      birth.placeholder = whitePlaceoholder
+      document.querySelector("#dBirth").focus()
+      return;
+    } else if (bank.value == ""){
+      bank.placeholder = whitePlaceoholder
+      bank.focus()
+      return;
+    } else if (account.value == ""){
+      account.placeholder = whitePlaceoholder
+      account.focus()
+      return;
+    } else if (email.value == ""){
+      email.placeholder = whitePlaceoholder
+      email.focus()
+      return;
+    } else if (phone.value == ""){
+      phone.placeholder = whitePlaceoholder
+      phone.focus()
+      return;
+    } else if (date.value == ""){
+      date.focus()
+    }
+
+    let values = [name.value, birth.value, bank.value, account.value, email.value, phone.value, date.value]
+    const sanitizedValues = sanitizeValue(values)
+
+    if(!sanitizedValues[4].match( /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/ )){
+      document.querySelector(".email_wrong").style.display = 'block'
+      email.focus()
+      return;
+    }
+
+    if(!sanitizedValues[5].match( /^[0-9]{3}[-]+[0-9]{4}[-]+[0-9]{4}$/ )){
+      document.querySelector(".phone_wrong").style.display = 'block'
+      phone.focus()
+      return;
+    }
+
+    if(privateInfo.value != "동의함"){
+      document.querySelector(".chk_private_wrong").style.display = 'block'
+      privateInfo.focus()
+      return;
+    }
+
+    if(private3Info.value != "동의함"){
+      document.querySelector(".chk_private3_wrong").style.display = 'block'
+      private3Info.focus()
+      return;
+    }
+
+
+    const sigPng = signaturePad.toDataURL()
+    if(sigPng == "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACWCAYAAABkW7XSAAAAAXNSR0IArs4c6QAABGJJREFUeF7t1AEJAAAMAsHZv/RyPNwSyDncOQIECEQEFskpJgECBM5geQICBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAgQdWMQCX4yW9owAAAABJRU5ErkJggg=="){
+      alert("서명을 해주세요")
+      return;
+    }
+
+    sanitizedValues.push(sigPng)
+    google.script.run.withSuccessHandler(function(){
+      alert("제출이 완료되었습니다")
+      signaturePad.clear()
+    }).receiveSig(sanitizedValues)
+  });
+
+  function sanitizeValue(values){
+    const results = values.map( (element)=> {
+      return HtmlSanitizer.SanitizeHtml(element)
+    })
+    return results
+  }
+
+  function isEmail(el) {
+    const filter=/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i
+    return (el.search(filter) == -1 ? false : true)
+  }
+
+</script>

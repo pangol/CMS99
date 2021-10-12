@@ -57,3 +57,19 @@ class OrgSaveSheet extends SaveSheet{
     }
   }
 }
+
+class PeopleSaveSheet extends SaveSheet {
+  constructor(){
+    super()
+    this.sheetName = '후원리스트'
+    this.sheetItemA = ['name', 'birth', 'bank', 'account', 'email', 'phone', 'date', 'sig']
+    this.sheet = {}
+    this.rangeNum = {
+      head_start_row : 1,
+      data_start_row : 1,
+      num_of_row : 1,
+      start_of_col : 1,
+      num_of_col : 8
+    }
+  }
+}
