@@ -88,10 +88,20 @@
 
     sanitizedValues.push(sigPng)
     google.script.run.withSuccessHandler(function(){
-      alert("제출이 완료되었습니다")
+      const processingElement = document.querySelector('#processing')
+      const endElement = document.querySelector('#endProcessing')
+      processingElement.style.display = 'none'
+      endElement.style.display = 'block'
+      
       signaturePad.clear()
     }).receiveSig(sanitizedValues)
+    showProcessing()
   });
+
+  function showProcessing(){
+    const processingElement = document.querySelector('#afterProcessing')
+     processingElement.style.display = 'block'
+  }
 
   function sanitizeValue(values){
     const results = values.map( (element)=> {

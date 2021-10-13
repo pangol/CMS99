@@ -21,7 +21,9 @@ function saveToSheet(values) {
 }
 
 function saveImg(data_uri, name, birth) {
-    const sigImgFolder = "1N7KFmU7ZgSYbbPmCmSGFzys6XwVP9vrj"
+    const docObj = new DocSetup()
+    docObj.setValues()
+    const sigImgFolder = docObj.sheetValues['sigFolderId']
     const encoded_image = data_uri.split(",")[1]
     const decoded_image = Utilities.base64Decode(encoded_image)
     const sigImg = Utilities.newBlob(decoded_image).setName(name + birth + "Sig.png")

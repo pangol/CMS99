@@ -5,94 +5,95 @@
 	<base target="_top">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-  <?!= include('ViewWebStylesheet'); ?>
+	<?!= include('ViewWebStylesheet'); ?>
 </head>
 
 <body>
-	<div class="container mt-3 p-3">
-		<h2>CMS 출금이체 신청서</h1>
-	</div>
-	<div class="container mt-3 p-5">
-		<h3 class="mb-3">수납기관 및 요금 종류</h2>
-		<table>
-			<tr align="center">
-				<td width="10%">수납기관명</td>
-				<td colspan="3">구구컬리지</td>
-			</tr>
-			<tr align="center">
-				<td width="10%">대표자</td>
-				<td width="35%">박용</td>
-				<td width="20%">사업자 등록번호</td>
-				<td width="30%">602-82-72631</td>
-			</tr>
-			<tr align="center">
-				<td>사업자주소</td>
-				<td>서울특별시 종로구 삼일대로 428(낙원상가) 5층 500-24호 </td>
-				<td>수납 요구종류</td>
-				<td>후원금</td>
-			</tr>
-		</table>
-	</div>
-	<div class="container mt-3 p-5">
-		<h3 class="mb-3">출금이체 신청 내용 (신청고객 기재란)</h2>
-		<table>
-			<tr align="center">
-				<td width="25%">출급계좌 예금주명</td>
-				<td width="25%">
-					<input type="text" id="dName" class="inputNormal">
+	<main id="main">
+		<div class="container mt-3 p-3">
+			<h2>CMS 출금이체 신청서</h1>
+		</div>
+		<div class="container mt-3 p-5">
+			<h3 class="mb-3">수납기관 및 요금 종류</h2>
+				<table>
+					<tr align="center">
+						<td width="10%">수납기관명</td>
+						<td colspan="3">구구컬리지</td>
+					</tr>
+					<tr align="center">
+						<td width="10%">대표자</td>
+						<td width="35%">박용</td>
+						<td width="20%">사업자 등록번호</td>
+						<td width="30%">602-82-72631</td>
+					</tr>
+					<tr align="center">
+						<td>사업자주소</td>
+						<td>서울특별시 종로구 삼일대로 428(낙원상가) 5층 500-24호 </td>
+						<td>수납 요구종류</td>
+						<td>후원금</td>
+					</tr>
+				</table>
+		</div>
+		<div class="container mt-3 p-5">
+			<h3 class="mb-3">출금이체 신청 내용 (신청고객 기재란)</h2>
+				<table>
+					<tr align="center">
+						<td width="25%">출급계좌 예금주명</td>
+						<td width="25%">
+							<input type="text" id="dName" class="inputNormal">
         </td>
-				<td width="25%">예금주 생년월일(사업자는 등록번호)</td>
-				<td width="25%">
-					<input type="text" id="dBirth" class="inputNormal">
+						<td width="25%">예금주 생년월일(사업자는 등록번호)</td>
+						<td width="25%">
+							<input type="text" id="dBirth" class="inputNormal">
         </td>
-			</tr>
-			<tr align="center">
-				<td>금융기관명</td>
-				<td>
-					<input type="text" id="dBank" class="inputNormal">
+					</tr>
+					<tr align="center">
+						<td>금융기관명</td>
+						<td>
+							<input type="text" id="dBank" class="inputNormal">
         </td>
-				<td>출금계좌번호</td>
-				<td>
-					<input type="text" id="dBankAccount" class="inputNormal">
+						<td>출금계좌번호</td>
+						<td>
+							<input type="text" id="dBankAccount" class="inputNormal">
         </td>
-			</tr>
-			<tr align="center">
-				<td>
-          예금주 이메일
-          <span class="email_wrong wrong">(올바른 이메일을 입력해주세요)</span>
+					</tr>
+					<tr align="center">
+						<td>
+							예금주 이메일
+							<span class="email_wrong wrong">(올바른 이메일을 입력해주세요)</span>
+						</td>
+						<td>
+							<input type="email" id="email" class="inputNormal" >
         </td>
-				<td>
-					<input type="email" id="email" class="inputNormal" >
+						<td>
+							예금주 휴대전화 (010-1234-5678)
+							<span class="phone_wrong wrong">(양식에 맞게 작성해주세요)</span>
+						</td>
+						<td>
+							<input type="tel" id="phone" class="inputNormal">
         </td>
-				<td>
-          예금주 휴대전화 (010-1234-5678)
-          <span class="phone_wrong wrong">(양식에 맞게 작성해주세요)</span>
-        </td>
-				<td>
-					<input type="tel" id="phone" class="inputNormal">
-        </td>
-			</tr>
-		</table>
-	</div>
-	<div class="container mt-3 p-5">
-		<p>
-			[개인(신용)정보 수집 및 이용 동의]<br>
+					</tr>
+				</table>
+		</div>
+		<div class="container mt-3 p-5">
+			<p>
+				[개인(신용)정보 수집 및 이용 동의]<br>
 			- 수집 및 이용목적 : CMS 출금이체를 통한 요금수납<br>
 			- 수집항목(필수) : 성명, 전화번호, 휴대폰번호, 금융기관명, 계좌번호, 생년월일<br>
 			- 보유 및 이용기간 : 수집, 이용 동의일로부터 CMS 출금이체 종료일(해지일) 후 5년까지<br>
 			- 신청자는 개인(신용)정보 수집 및 이용을 거부할 권리가 있으며, 권리행사시 출금이체 신청이 거부될 수 있습니다.
 		</p>
-		<div>
-      <span class="chk_private_wrong wrong">동의를 해야 진행할 수 있습니다</span>
-			<input type="radio" name="chk_privateInfo" value="동의함" checked="checked" id="acc">
-      <label for="acc">동의함</label>
-			<input type="radio" name="chk_privateInfo" value="동의안함" id="nacc">
-      <label for="nacc">동의안함</label>
+				<div>
+					<span class="chk_private_wrong wrong">동의를 해야 진행할 수 있습니다</span>
+					<input type="radio" name="chk_privateInfo" value="동의함" checked="checked" id="acc">
+					<label for="acc">동의함</label>
+					<input type="radio" name="chk_privateInfo" value="동의안함" id="nacc">
+					<label for="nacc">동의안함</label>
+				</div>
 		</div>
-	</div>
-	<div class="container mt-3 p-5">
-		<p>
-			[개인(신용)정보 제3자 제공 동의]<br>
+		<div class="container mt-3 p-5">
+			<p>
+				[개인(신용)정보 제3자 제공 동의]<br>
 			- 개인(신용)정보를 제공받는 자 : 사단법인 금융결제원<br>
 			- 개인(신용)정보를 제공받는 자의 개인(신용)정보 이용 목적<br>
 			: CMS 출금이체 서비스 제공 및 출금동의 확인, 출금이체 신규등록 및 해지 사실 통지<br>
@@ -103,45 +104,48 @@
 			- 신청자는 개인(신용)정보에 대해 금융결제원에 제공하는 것을 거부할 권리가 있으며, 거부시 출금이체 신청이
 			거부될 수 있습니다.
 		</p>
-		<div>
-      <span class="chk_private3_wrong wrong">동의를 해야 진행할 수 있습니다</span>
-			<input type="radio" name="chk_private3Info" value="동의함" checked="checked" id="acc3">
-      <label for="acc3">동의함</label>
-			<input type="radio" name="chk_private3Info" value="동의안함" id="nacc3">
-      <label for="nacc3">동의안함</label>
+				<div>
+					<span class="chk_private3_wrong wrong">동의를 해야 진행할 수 있습니다</span>
+					<input type="radio" name="chk_private3Info" value="동의함" checked="checked" id="acc3">
+					<label for="acc3">동의함</label>
+					<input type="radio" name="chk_private3Info" value="동의안함" id="nacc3">
+					<label for="nacc3">동의안함</label>
+				</div>
 		</div>
-	</div>
-	<div class="container mt-3 p-5">
-		<p>
-			[출금이체 동의여부 및 해지사실 통지 안내]<br>
+		<div class="container mt-3 p-5">
+			<p>
+				[출금이체 동의여부 및 해지사실 통지 안내]<br>
 			은행 등 금융회사 및 금융결제원은 CMS 제도의 안정적 운영을 위하여 고객의 (은행 등 금융회사 및 이용기관 보유) 연락처 정보를 활용하여 문자메세지, 유선 등으로 고객의 출금이체 동의여부 및 해지사실을 통지할 수 있으니 올바른 연락처 등록여부를 확인하시기 바랍니다.
 		</p>
-		<p>
-			상기 금융거래정보의 제공 및 개인(신용)정보의 수집 및 이용, 제3자 제공에 동의하며 CMS 출금이체를 신청합니다.
-		</p>
-	</div>
-  <div class="container mt-3 p-5 ">
-		<p>
-			주)<br> 1. 인감 또는 서명은 해당 예금계좌 사용인감 또는 서명을 날인하여야 합니다.<br>
+				<p>
+					상기 금융거래정보의 제공 및 개인(신용)정보의 수집 및 이용, 제3자 제공에 동의하며 CMS 출금이체를 신청합니다.
+				</p>
+		</div>
+		<div class="container mt-3 p-5 ">
+			<p>
+				주)<br> 1. 인감 또는 서명은 해당 예금계좌 사용인감 또는 서명을 날인하여야 합니다.<br>
 			2. 기존 신청내용을 변경하고자 하는 경우에는 먼지 해지신청을 하고 신규 작성을 하여야 합니다.<br>
 			3. 주계약자와 예금주가 다른 경우 반드시 예금주의 별도 서명을 받아야 합니다.
 		</p>
-	</div>
-	<div class="container mt-3 p-5">
-		<div>
-      <label>작성날짜</label>
-      <input type="date" id="writeDate">
-    </div>
-		<div class="mb-3">
-			<label for="sig" class="form-label">서명 (아래 서명판에 서명해주세요)</label><br>
-			<canvas id="canvas"></canvas>
 		</div>
-		<button type="submit" class="btn btn-secondary clearButton">서명지우기</button>
-		<button type="submit" class="btn btn-primary sendButton">제출</button>
-	</div>
-<?!= include('ViewSanScript'); ?>
-<script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
-<?!= include('ViewWebScript'); ?>
+		<div class="container mt-3 p-5">
+			<div>
+				<label>작성날짜</label>
+				<input type="date" id="writeDate">
+    </div>
+				<div class="mb-3">
+					<label for="sig" class="form-label">서명 (아래 서명판에 서명해주세요)</label><br>
+					<canvas id="canvas"></canvas>
+				</div>
+				<button type="submit" class="btn btn-secondary clearButton">서명지우기</button>
+				<button type="submit" class="btn btn-primary sendButton">제출</button>
+			</div>
+	</main>
+	<?!= include('ViewSanScript'); ?>
+	<script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
+	<?!= include('ViewWebScript'); ?>
+  <?!= include('ViewWebProcessing'); ?>
+  
 </body>
 
 </html>
